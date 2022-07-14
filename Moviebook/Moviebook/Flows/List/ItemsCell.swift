@@ -11,16 +11,9 @@ import SnapKit
 import Kingfisher
 import AVFoundation
 
-protocol ItemsCellDelegate {
-    func cellLongPress(cell: ItemsCell)
-}
-
 class ItemsCell: UICollectionViewCell {
-    
-    var cellDelegate: ItemsCellDelegate?
-    let listVC = ListViewController()
-    
-     lazy var filmName: UILabel = {
+        
+    lazy var filmName: UILabel = {
         let labelCell = UILabel()
         labelCell.text = "Name film"
         labelCell.font = UIFont.systemFont(ofSize: 17)
@@ -31,7 +24,7 @@ class ItemsCell: UICollectionViewCell {
         return labelCell
     }()
     
-     lazy var imageFilm: UIImageView = {
+    lazy var imageFilm: UIImageView = {
         let imageCell = UIImageView()
         imageCell.layer.cornerRadius = 16
         imageCell.translatesAutoresizingMaskIntoConstraints = false
@@ -39,10 +32,11 @@ class ItemsCell: UICollectionViewCell {
         return imageCell
     }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupLongGestureRecognizerOnCollection()
-      }
+    lazy var containerView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        
+        return view
+    }()
     
     func setup(item: Film) {
         if let urlString = item.poster_path {
@@ -60,7 +54,6 @@ class ItemsCell: UICollectionViewCell {
                 self.handle(result)
             }
         }
-        
         filmName.text = item.title
     }
     
@@ -95,6 +88,11 @@ class ItemsCell: UICollectionViewCell {
 extension ItemsCell {
     func setupUI() {
         
+        self.addSubview(self.containerView)
+        self.containerView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
+        }
+        
         self.addSubview(self.imageFilm)
         self.imageFilm.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
@@ -107,24 +105,6 @@ extension ItemsCell {
         self.filmName.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(20)
             make.right.left.equalToSuperview().inset(12)
-        }
-    }
-}
-
-extension ItemsCell: UIGestureRecognizerDelegate {
-    
-    func setupLongGestureRecognizerOnCollection() {
-        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
-        longPressedGesture.minimumPressDuration = 0.5
-        longPressedGesture.delegate = self
-        longPressedGesture.delaysTouchesBegan = true
-        listVC.collectionView.addGestureRecognizer(longPressedGesture)
-    }
-    
-    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        if (gestureRecognizer.state != .began) {
-            cellDelegate?.cellLongPress(cell: self)
-            return
         }
     }
 }

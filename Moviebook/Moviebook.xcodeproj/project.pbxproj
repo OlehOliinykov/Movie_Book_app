@@ -25,8 +25,9 @@
 		3034AD8B28566986000985AD /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8A28566986000985AD /* NetworkRequest.swift */; };
 		3034AD8D285669F0000985AD /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8C285669F0000985AD /* TabBarViewController.swift */; };
 		3034AD8F28566AAF000985AD /* TabBarViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3034AD8E28566AAF000985AD /* TabBarViewController.storyboard */; };
-		3034AD962856729F000985AD /* ItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD76285667BA000985AD /* ItemsCell.swift */; };
-		3034AD9B28567731000985AD /* ItemsCell.swift in Resources */ = {isa = PBXBuildFile; fileRef = 3034AD76285667BA000985AD /* ItemsCell.swift */; };
+		307EA7F62880A5C100D541B8 /* FavDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */; };
+		307EA7FA2880A95C00D541B8 /* FavDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */; };
+		3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308624092862475D006ECF68 /* ItemsCell.swift */; };
 		76D8863657E038984C6C60BB /* Pods_Moviebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AADE21632E868FD103A528E /* Pods_Moviebook.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +41,6 @@
 		3034AD612856645B000985AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3034AD642856645B000985AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3034AD662856645B000985AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3034AD76285667BA000985AD /* ItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCell.swift; sourceTree = "<group>"; };
 		3034AD78285667CD000985AD /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		3034AD7A285667E0000985AD /* ListViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ListViewController.storyboard; sourceTree = "<group>"; };
 		3034AD7C28566804000985AD /* FavouritesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavouritesCell.swift; path = ../../../../../../../Documents/FavouritesCell.swift; sourceTree = "<group>"; };
@@ -53,6 +53,9 @@
 		3034AD8A28566986000985AD /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		3034AD8C285669F0000985AD /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3034AD8E28566AAF000985AD /* TabBarViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarViewController.storyboard; sourceTree = "<group>"; };
+		307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavDetailViewController.swift; sourceTree = "<group>"; };
+		307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavDetailViewController.storyboard; sourceTree = "<group>"; };
+		308624092862475D006ECF68 /* ItemsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsCell.swift; sourceTree = "<group>"; };
 		3AADE21632E868FD103A528E /* Pods_Moviebook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moviebook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		862275BC5BBA774DBA2A77D1 /* Pods-Moviebook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moviebook.debug.xcconfig"; path = "Target Support Files/Pods-Moviebook/Pods-Moviebook.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,6 +155,8 @@
 			children = (
 				3034AD82285668C2000985AD /* DetailViewController.swift */,
 				3034AD8428566934000985AD /* DetailViewController.storyboard */,
+				307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */,
+				307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -169,7 +174,7 @@
 		3034AD73285665CE000985AD /* List */ = {
 			isa = PBXGroup;
 			children = (
-				3034AD76285667BA000985AD /* ItemsCell.swift */,
+				308624092862475D006ECF68 /* ItemsCell.swift */,
 				3034AD78285667CD000985AD /* ListViewController.swift */,
 				3034AD7A285667E0000985AD /* ListViewController.storyboard */,
 			);
@@ -271,7 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3034AD9B28567731000985AD /* ItemsCell.swift in Resources */,
+				307EA7FA2880A95C00D541B8 /* FavDetailViewController.storyboard in Resources */,
 				3034AD8F28566AAF000985AD /* TabBarViewController.storyboard in Resources */,
 				3034AD8128566874000985AD /* FavouritesViewController.storyboard in Resources */,
 				3034AD652856645B000985AD /* LaunchScreen.storyboard in Resources */,
@@ -335,11 +340,12 @@
 				3034AD592856645A000985AD /* AppDelegate.swift in Sources */,
 				3034AD8D285669F0000985AD /* TabBarViewController.swift in Sources */,
 				3034AD7D28566804000985AD /* FavouritesCell.swift in Sources */,
+				307EA7F62880A5C100D541B8 /* FavDetailViewController.swift in Sources */,
 				3034AD8728566958000985AD /* FilmModel.swift in Sources */,
 				3034AD79285667CD000985AD /* ListViewController.swift in Sources */,
 				3034AD7F2856684B000985AD /* FavouritesViewController.swift in Sources */,
 				3034AD5B2856645A000985AD /* SceneDelegate.swift in Sources */,
-				3034AD962856729F000985AD /* ItemsCell.swift in Sources */,
+				3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */,
 				3034AD8B28566986000985AD /* NetworkRequest.swift in Sources */,
 				3034AD83285668C2000985AD /* DetailViewController.swift in Sources */,
 				3034AD8928566975000985AD /* NetworkDataFetch.swift in Sources */,

@@ -29,5 +29,5 @@ class NetworkDataFetch {
                 response(nil, error)
             }
         }
-    }
+    }    
 }

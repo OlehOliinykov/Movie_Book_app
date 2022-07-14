@@ -11,6 +11,8 @@ import SnapKit
 
 class RootViewController: UIViewController {
     
+    let tabBarVC = TabBarViewController()
+    
     override func loadView() {
         view = UIView()
         view.backgroundColor = .white
@@ -23,7 +25,7 @@ class RootViewController: UIViewController {
     }
     
     func addChildVC() {
-        let tabBarVC = TabBarViewController()
+        
         addChild(tabBarVC)
         view.addSubview(tabBarVC.view)
         tabBarVC.view.translatesAutoresizingMaskIntoConstraints = false
@@ -34,16 +36,24 @@ class RootViewController: UIViewController {
             make.right.equalToSuperview()
         }
     }
-    
 }
 
-class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
+protocol passCellDelegate: AnyObject {
+    func passCell(_ filmCollectionViewCell: ItemsCell, handleLongPressFor indexFavourite: Film)
+}
+
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate, passCellDelegate {
+    func passCell(_ filmCollectionViewCell: ItemsCell, handleLongPressFor indexFavourite: Film) {
+        favouritesViewController.favFilm.append(indexFavourite)
+        favouritesViewController.favCollectionView.reloadData()
+    }
     
-    let favouritesViewController = UIStoryboard(name: "FavouritesViewController", bundle: nil).instantiateViewController(withIdentifier: "Favourites") as! FavouritesViewController
+    var favouritesViewController = UIStoryboard(name: "FavouritesViewController", bundle: nil).instantiateViewController(withIdentifier: "Favourites") as! FavouritesViewController
     let listViewController = UIStoryboard(name: "ListViewController", bundle: nil).instantiateViewController(withIdentifier: "List") as! ListViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        listViewController.passDelegate = self
         delegate = self
         setupTabBar()
     }

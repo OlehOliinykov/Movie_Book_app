@@ -54,7 +54,6 @@ class DetailViewController: UIViewController {
             make.top.equalTo(nameLabel).inset(20)
             make.left.right.equalToSuperview().inset(16)
         }
-        
         return releaseDateLabel
     }()
     
@@ -71,7 +70,6 @@ class DetailViewController: UIViewController {
             make.top.equalTo(releaseDateLabel).inset(20)
             make.left.right.equalToSuperview().inset(16)
         }
-        
         return overviewLabel
     }()
     

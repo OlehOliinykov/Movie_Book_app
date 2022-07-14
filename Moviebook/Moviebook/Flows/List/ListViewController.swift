@@ -8,11 +8,13 @@
 import Foundation
 import SnapKit
 import UIKit
+import SwiftUI
 
 class ListViewController: UIViewController {
     
+    weak var passDelegate: passCellDelegate?
+    var indexFavourite: Film?
     var films = [Film]()
-    private var selectedItems: [Film] = []
     let api = "f048e427d91bfded37eee1e7a69876fd"
     
     override func viewDidLoad() {
@@ -20,12 +22,13 @@ class ListViewController: UIViewController {
         view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
         setupCollectionViewUI()
         setupDelegate()
+        setupRecognizer()
         fetchFilm(api: api)
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "🎬 Films"
     }
 
-    lazy var collectionView: UICollectionView = { [weak self] in
+    lazy var listCollectionView: UICollectionView = { [weak self] in
         let flow = UICollectionViewFlowLayout()
         flow.scrollDirection = .vertical
         flow.minimumLineSpacing = 20
@@ -36,20 +39,19 @@ class ListViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator  = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        let cellNib = UINib(nibName: "ItemsCell", bundle: nil)
-        collectionView.register(cellNib, forCellWithReuseIdentifier: "ItemsCell")
+        collectionView.register(ItemsCell.self, forCellWithReuseIdentifier: "ItemsCell")
         collectionView.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
         return collectionView
     }()
     
     func setupDelegate() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        listCollectionView.delegate = self
+        listCollectionView.dataSource = self
     }
     
     func setupCollectionViewUI() {
-        self.view.addSubview(self.collectionView)
-        self.collectionView.snp.makeConstraints { make in
+        self.view.addSubview(self.listCollectionView)
+        self.listCollectionView.snp.makeConstraints { make in
             make.left.right.bottom.top.equalTo(self.view)
         }
     }
@@ -62,7 +64,7 @@ class ListViewController: UIViewController {
                 guard let filmModel = filmModel else { return }
                 if filmModel.results != [] {
                     self?.films = filmModel.results
-                    self?.collectionView.reloadData()
+                    self?.listCollectionView.reloadData()
                 } else {
                     print("Array is empty")
                 }
@@ -82,7 +84,6 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemsCell", for: indexPath) as! ItemsCell
         let film = films[indexPath.item]
         cell.setup(item: film)
-        cell.cellDelegate = self
         cell.backgroundColor = UIColor(red: 234/255, green: 213/255, blue: 230/255, alpha: 1)
         cell.layer.cornerRadius = 20
         return cell
@@ -105,21 +106,26 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-extension ListViewController: ItemsCellDelegate {
-    func cellLongPress(cell: ItemsCell) {
-        
+extension ListViewController: UIGestureRecognizerDelegate {
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != .began) {
+            guard let indexFavourite = indexFavourite else { return }
+            passDelegate?.passCell(ItemsCell(), handleLongPressFor: indexFavourite)
+        }
+        let touchPoint = gestureRecognizer.location(in: listCollectionView)
 
-//       let p = gestureRecognizer.location(in: collectionView)
-//
-//        if let indexPath = collectionView.indexPathForItem(at: p) {
-//            print("Long press at item: \(indexPath.item)")
-//        }
-//
-        guard let indexPath = self.collectionView.indexPathForItem(at: cell.center) else { return }
-        let selectedItem = films[indexPath.item]
-        print(selectedItem)
-//
-//        selectedItems.append(selectedItem)
-//        collectionView.reloadData()
+        if let indexPath = listCollectionView.indexPathForItem(at: touchPoint) {
+            indexFavourite = films[indexPath.item]
+        }
     }
+    
+    func setupRecognizer() {
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        longPressedGesture.minimumPressDuration = 0.5
+        longPressedGesture.delegate = self
+        longPressedGesture.delaysTouchesBegan = true
+        
+        listCollectionView.addGestureRecognizer(longPressedGesture)
+    }
+    
 }

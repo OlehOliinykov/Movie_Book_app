@@ -11,16 +11,15 @@ import UIKit
 
 class FavouritesViewController: UIViewController {
     
-    var favFilm: [Film] = []
+    var favFilm = [Film?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .blue
         self.navigationItem.title = "⭐️ Favourite"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
-        
+        setupLongGestureRecognizer()
         setupDelegate()
         setupCollectionViewUI()
     }
@@ -69,6 +68,15 @@ extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let favDetail = UIStoryboard(name: "FavDetailViewController", bundle: nil).instantiateViewController(withIdentifier: "FavDetail") as! FavDetailViewController
+        let navFavourite = UINavigationController(rootViewController: favDetail)
+        let favouriteFilm = favFilm[indexPath.item]
+        favDetail.film = favouriteFilm
+        favDetail.title = "Detail"
+        self.present(navFavourite, animated: true, completion: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
         let space: CGFloat = (flowLayout?.minimumInteritemSpacing ?? 0.0) + (flowLayout?.sectionInset.left ?? 0.0) + (flowLayout?.sectionInset.right ?? 0.0)
@@ -76,4 +84,28 @@ extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: size, height: size)
     }
     
+}
+
+extension FavouritesViewController: UIGestureRecognizerDelegate {
+    private func setupLongGestureRecognizer() {
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gestureRecognizer:)))
+        longPressedGesture.minimumPressDuration = 0.5
+        longPressedGesture.delegate = self
+        longPressedGesture.delaysTouchesBegan = true
+        favCollectionView.addGestureRecognizer(longPressedGesture)
+    }
+
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if (gestureRecognizer.state != .began) {
+            return
+        }
+
+        let touchPoint = gestureRecognizer.location(in: favCollectionView)
+
+        if let indexPath = favCollectionView.indexPathForItem(at: touchPoint) {
+            print("Long press at item: \(indexPath.row)")
+            favFilm.remove(at: indexPath.item)
+            favCollectionView.reloadData()
+        }
+    }
 }
