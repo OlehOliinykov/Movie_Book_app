@@ -28,6 +28,8 @@
 		307EA7F62880A5C100D541B8 /* FavDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */; };
 		307EA7FA2880A95C00D541B8 /* FavDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */; };
 		3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308624092862475D006ECF68 /* ItemsCell.swift */; };
+		308E7B6528908B9500E8A261 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E7B6428908B9500E8A261 /* NetworkService.swift */; };
+		308E7B672890A9E200E8A261 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */; };
 		76D8863657E038984C6C60BB /* Pods_Moviebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AADE21632E868FD103A528E /* Pods_Moviebook.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +58,8 @@
 		307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavDetailViewController.swift; sourceTree = "<group>"; };
 		307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavDetailViewController.storyboard; sourceTree = "<group>"; };
 		308624092862475D006ECF68 /* ItemsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsCell.swift; sourceTree = "<group>"; };
+		308E7B6428908B9500E8A261 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 		3AADE21632E868FD103A528E /* Pods_Moviebook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moviebook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		862275BC5BBA774DBA2A77D1 /* Pods-Moviebook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moviebook.debug.xcconfig"; path = "Target Support Files/Pods-Moviebook/Pods-Moviebook.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +138,8 @@
 			children = (
 				3034AD8828566975000985AD /* NetworkDataFetch.swift */,
 				3034AD8A28566986000985AD /* NetworkRequest.swift */,
+				308E7B6428908B9500E8A261 /* NetworkService.swift */,
+				308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -342,8 +348,10 @@
 				3034AD7D28566804000985AD /* FavouritesCell.swift in Sources */,
 				307EA7F62880A5C100D541B8 /* FavDetailViewController.swift in Sources */,
 				3034AD8728566958000985AD /* FilmModel.swift in Sources */,
+				308E7B6528908B9500E8A261 /* NetworkService.swift in Sources */,
 				3034AD79285667CD000985AD /* ListViewController.swift in Sources */,
 				3034AD7F2856684B000985AD /* FavouritesViewController.swift in Sources */,
+				308E7B672890A9E200E8A261 /* NetworkDataFetcher.swift in Sources */,
 				3034AD5B2856645A000985AD /* SceneDelegate.swift in Sources */,
 				3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */,
 				3034AD8B28566986000985AD /* NetworkRequest.swift in Sources */,

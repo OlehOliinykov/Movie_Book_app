@@ -45,7 +45,7 @@ class ItemsCell: UICollectionViewCell {
             guard let downloadURL = URL(string: url) else { return }
             let resource = ImageResource(downloadURL: downloadURL)
             let placeholder = UIImage(named: "placeholderPhoto")
-            let processor = RoundCornerImageProcessor(cornerRadius: 20)
+            let processor = RoundCornerImageProcessor(cornerRadius: 16)
             
             self.imageFilm.kf.setImage(with: resource, placeholder: placeholder, options: [.processor(processor)], progressBlock: { (receivedSize, totalSize) in
                 let percentage = (Float(receivedSize) / Float(totalSize)) * 100.0
@@ -87,7 +87,6 @@ class ItemsCell: UICollectionViewCell {
 
 extension ItemsCell {
     func setupUI() {
-        
         self.addSubview(self.containerView)
         self.containerView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()

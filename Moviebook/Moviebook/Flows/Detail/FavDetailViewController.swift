@@ -39,7 +39,7 @@ class FavDetailViewController: UIViewController {
         view.addSubview(genreFavFilm)
         genreFavFilm.snp.makeConstraints { make in
             make.top.equalTo(nameLabel).inset(20)
-            make.right.equalToSuperview().inset(16)
+            make.right.left.equalToSuperview().inset(16)
         }
         
         return genreFavFilm
@@ -54,6 +54,7 @@ class FavDetailViewController: UIViewController {
         guard let film = film else { return }
         
         nameLabel.text = film.title
+        genreLabel.text = "Genre"
     }
         
 }

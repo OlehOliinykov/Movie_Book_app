@@ -17,13 +17,16 @@ class ListViewController: UIViewController {
     var films = [Film]()
     let api = "f048e427d91bfded37eee1e7a69876fd"
     
+    var networkDataFetcher = NetworkDataFetcher()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
         setupCollectionViewUI()
         setupDelegate()
         setupRecognizer()
-        fetchFilm(api: api)
+//        fetchFilm(api: api)
+        requestFilm()
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "🎬 Films"
     }
@@ -56,23 +59,34 @@ class ListViewController: UIViewController {
         }
     }
     
-    private func fetchFilm(api: String) {
-        let urlString = "https://api.themoviedb.org/3/trending/movie/week?api_key=\(api)"
-        
-        NetworkDataFetch.shared.fetchFilm(urlString: urlString) { [weak self] filmModel, error in
-            if error == nil {
-                guard let filmModel = filmModel else { return }
-                if filmModel.results != [] {
-                    self?.films = filmModel.results
-                    self?.listCollectionView.reloadData()
-                } else {
-                    print("Array is empty")
-                }
-            } else {
-                print(error!.localizedDescription)
-            }
+    private func requestFilm() {
+        networkDataFetcher.fetchFilm { [weak self] (requestResult) in
+            guard let requestResult = requestResult else { return }
+
+            self?.films = requestResult.results
+            self?.listCollectionView.reloadData()
+            print(requestResult)
         }
+        
     }
+    
+//    private func fetchFilm(api: String) {
+//        let urlString = "https://api.themoviedb.org/3/trending/movie/week?api_key=\(api)"
+//
+//        NetworkDataFetch.shared.fetchFilm(urlString: urlString) { [weak self] filmModel, error in
+//            if error == nil {
+//                guard let filmModel = filmModel else { return }
+//                if filmModel.results != [] {
+//                    self?.films = filmModel.results
+//                    self?.listCollectionView.reloadData()
+//                } else {
+//                    print("Array is empty")
+//                }
+//            } else {
+//                print(error!.localizedDescription)
+//            }
+//        }
+//    }
 }
 
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -85,7 +99,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let film = films[indexPath.item]
         cell.setup(item: film)
         cell.backgroundColor = UIColor(red: 234/255, green: 213/255, blue: 230/255, alpha: 1)
-        cell.layer.cornerRadius = 20
+        cell.layer.cornerRadius = 16
         return cell
     }
     

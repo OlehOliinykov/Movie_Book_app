@@ -64,7 +64,7 @@ extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDa
         let film = favFilm[indexPath.item]
         cell.setup(item: film)
         cell.backgroundColor = UIColor(red: 234/255, green: 213/255, blue: 230/255, alpha: 1)
-        cell.layer.cornerRadius = 20
+        cell.layer.cornerRadius = 16
         return cell
     }
     
@@ -103,7 +103,6 @@ extension FavouritesViewController: UIGestureRecognizerDelegate {
         let touchPoint = gestureRecognizer.location(in: favCollectionView)
 
         if let indexPath = favCollectionView.indexPathForItem(at: touchPoint) {
-            print("Long press at item: \(indexPath.row)")
             favFilm.remove(at: indexPath.item)
             favCollectionView.reloadData()
         }
