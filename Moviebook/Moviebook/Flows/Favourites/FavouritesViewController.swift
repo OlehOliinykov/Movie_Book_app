@@ -11,17 +11,21 @@ import UIKit
 
 class FavouritesViewController: UIViewController {
     
+    var networkDataFetcher = NetworkDataFetcher()
     var favFilm = [Film?]()
+    var favGenre = [Genres?]()
+    var filterArray = [Genres?]()
+    var configurationImage: ImageModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
         self.navigationItem.title = "⭐️ Favourite"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
+        setupUICollectionView()
         setupLongGestureRecognizer()
         setupDelegate()
-        setupCollectionViewUI()
+        requestImage()
     }
     
     lazy var favCollectionView: UICollectionView = { [weak self] in
@@ -45,13 +49,22 @@ class FavouritesViewController: UIViewController {
         favCollectionView.dataSource = self
     }
     
-    func setupCollectionViewUI() {
+    func setupUICollectionView() {
         self.view.addSubview(self.favCollectionView)
         self.favCollectionView.snp.makeConstraints { make in
             make.left.right.bottom.top.equalTo(self.view)
         }
     }
-    
+        
+    private func requestImage() {
+        networkDataFetcher.fetchImage { [weak self] (requestResult) in
+            guard let requestResult = requestResult else { return }
+            DispatchQueue.main.async {
+                self?.configurationImage = requestResult
+                self?.favCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -62,9 +75,10 @@ extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavouritesCell", for: indexPath) as! FavouritesCell
         let film = favFilm[indexPath.item]
-        cell.setup(item: film)
+        cell.setup(item: film, configurationImage: configurationImage)
         cell.backgroundColor = UIColor(red: 234/255, green: 213/255, blue: 230/255, alpha: 1)
         cell.layer.cornerRadius = 16
+        
         return cell
     }
     
@@ -72,16 +86,21 @@ extension FavouritesViewController: UICollectionViewDelegate, UICollectionViewDa
         let favDetail = UIStoryboard(name: "FavDetailViewController", bundle: nil).instantiateViewController(withIdentifier: "FavDetail") as! FavDetailViewController
         let navFavourite = UINavigationController(rootViewController: favDetail)
         let favouriteFilm = favFilm[indexPath.item]
+        let favouriteGenre = favGenre[indexPath.item]
         favDetail.film = favouriteFilm
-        favDetail.title = "Detail"
+        favDetail.genre = favouriteGenre
+        navFavourite.modalPresentationStyle = .pageSheet
+        if let sheet = navFavourite.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+        }
         self.present(navFavourite, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-        let space: CGFloat = (flowLayout?.minimumInteritemSpacing ?? 0.0) + (flowLayout?.sectionInset.left ?? 0.0) + (flowLayout?.sectionInset.right ?? 0.0)
-        let size: CGFloat = (collectionView.frame.size.width - space) / 2.0
-        return CGSize(width: size, height: size)
+        let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
+        let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
+        let size:CGFloat = (favCollectionView.frame.size.width - space) / 2.0
+        return CGSize(width: size, height: 314)
     }
     
 }
@@ -104,6 +123,7 @@ extension FavouritesViewController: UIGestureRecognizerDelegate {
 
         if let indexPath = favCollectionView.indexPathForItem(at: touchPoint) {
             favFilm.remove(at: indexPath.item)
+            favGenre.remove(at: indexPath.item)
             favCollectionView.reloadData()
         }
     }

@@ -21,12 +21,12 @@
 		3034AD83285668C2000985AD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD82285668C2000985AD /* DetailViewController.swift */; };
 		3034AD8528566934000985AD /* DetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3034AD8428566934000985AD /* DetailViewController.storyboard */; };
 		3034AD8728566958000985AD /* FilmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8628566958000985AD /* FilmModel.swift */; };
-		3034AD8928566975000985AD /* NetworkDataFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8828566975000985AD /* NetworkDataFetch.swift */; };
-		3034AD8B28566986000985AD /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8A28566986000985AD /* NetworkRequest.swift */; };
 		3034AD8D285669F0000985AD /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034AD8C285669F0000985AD /* TabBarViewController.swift */; };
 		3034AD8F28566AAF000985AD /* TabBarViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3034AD8E28566AAF000985AD /* TabBarViewController.storyboard */; };
 		307EA7F62880A5C100D541B8 /* FavDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */; };
 		307EA7FA2880A95C00D541B8 /* FavDetailViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */; };
+		3085FBC328929166000B6A03 /* GenreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3085FBC228929166000B6A03 /* GenreModel.swift */; };
+		3085FBC52892CBE0000B6A03 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3085FBC42892CBDF000B6A03 /* ImageModel.swift */; };
 		3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308624092862475D006ECF68 /* ItemsCell.swift */; };
 		308E7B6528908B9500E8A261 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E7B6428908B9500E8A261 /* NetworkService.swift */; };
 		308E7B672890A9E200E8A261 /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */; };
@@ -51,12 +51,12 @@
 		3034AD82285668C2000985AD /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3034AD8428566934000985AD /* DetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailViewController.storyboard; sourceTree = "<group>"; };
 		3034AD8628566958000985AD /* FilmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmModel.swift; sourceTree = "<group>"; };
-		3034AD8828566975000985AD /* NetworkDataFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetch.swift; sourceTree = "<group>"; };
-		3034AD8A28566986000985AD /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		3034AD8C285669F0000985AD /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3034AD8E28566AAF000985AD /* TabBarViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarViewController.storyboard; sourceTree = "<group>"; };
 		307EA7F52880A5C100D541B8 /* FavDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavDetailViewController.swift; sourceTree = "<group>"; };
 		307EA7F92880A95C00D541B8 /* FavDetailViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavDetailViewController.storyboard; sourceTree = "<group>"; };
+		3085FBC228929166000B6A03 /* GenreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreModel.swift; sourceTree = "<group>"; };
+		3085FBC42892CBDF000B6A03 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		308624092862475D006ECF68 /* ItemsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsCell.swift; sourceTree = "<group>"; };
 		308E7B6428908B9500E8A261 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
@@ -110,6 +110,8 @@
 			isa = PBXGroup;
 			children = (
 				3034AD8628566958000985AD /* FilmModel.swift */,
+				3085FBC228929166000B6A03 /* GenreModel.swift */,
+				3085FBC42892CBDF000B6A03 /* ImageModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -136,8 +138,6 @@
 		3034AD6F285664FC000985AD /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				3034AD8828566975000985AD /* NetworkDataFetch.swift */,
-				3034AD8A28566986000985AD /* NetworkRequest.swift */,
 				308E7B6428908B9500E8A261 /* NetworkService.swift */,
 				308E7B662890A9E200E8A261 /* NetworkDataFetcher.swift */,
 			);
@@ -343,6 +343,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3034AD5D2856645A000985AD /* WelcomeViewController.swift in Sources */,
+				3085FBC52892CBE0000B6A03 /* ImageModel.swift in Sources */,
+				3085FBC328929166000B6A03 /* GenreModel.swift in Sources */,
 				3034AD592856645A000985AD /* AppDelegate.swift in Sources */,
 				3034AD8D285669F0000985AD /* TabBarViewController.swift in Sources */,
 				3034AD7D28566804000985AD /* FavouritesCell.swift in Sources */,
@@ -354,9 +356,7 @@
 				308E7B672890A9E200E8A261 /* NetworkDataFetcher.swift in Sources */,
 				3034AD5B2856645A000985AD /* SceneDelegate.swift in Sources */,
 				3086240A2862475D006ECF68 /* ItemsCell.swift in Sources */,
-				3034AD8B28566986000985AD /* NetworkRequest.swift in Sources */,
 				3034AD83285668C2000985AD /* DetailViewController.swift in Sources */,
-				3034AD8928566975000985AD /* NetworkDataFetch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

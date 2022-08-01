@@ -12,20 +12,7 @@ import SnapKit
 class DetailViewController: UIViewController {
     
     var film: Film?
-    
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 16
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
-        }
-        
-        return imageView
-    }()
-    
     lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.text = "Name"
@@ -35,7 +22,7 @@ class DetailViewController: UIViewController {
         
         view.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView).inset(20)
+            make.top.equalToSuperview().inset(40)
             make.left.right.equalToSuperview().inset(16)
         }
         
@@ -75,10 +62,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.title = "Detail"
         setModel()
-        guard let url = film?.poster_path else { return }
-        setImage(urlString: url)
     }
     
     func setModel() {
@@ -99,22 +84,5 @@ class DetailViewController: UIViewController {
         let date = formatDate.string(from: backendData)
         return date
     }
-    
-    private func setImage(urlString: String?) {
-        if let url = urlString {
-            NetworkRequest.shared.requestData(urlString: url) { [weak self] result in
-                switch result {
-                case .success(let data):
-                    let image = UIImage(data: data)
-                    self?.imageView.image = image
-                case .failure(let error):
-                    print("No album photo: \(error)")
-                }
-            }
-        } else {
-            imageView.image = nil
-        }
-    }
-    
 }
 

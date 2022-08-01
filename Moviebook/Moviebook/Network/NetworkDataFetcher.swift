@@ -9,15 +9,37 @@ import Foundation
 
 class NetworkDataFetcher {
     
-    var networkService = NetworkService()
+//    var networkService = NetworkService()
     
     func fetchFilm(completion: @escaping (FilmModel?) -> ()) {
-        networkService.request() { data, error in
+        NetworkService.shared.request() { data, error in
             if let error = error {
                 print("Error received requesting data: \(error.localizedDescription)")
                 completion(nil)
             }
             let decode = self.decodeJSON(type: FilmModel.self, from: data)
+            completion(decode)
+        }
+    }
+    
+    func fetchGenre(completion: @escaping (GenreModel?) -> ()) {
+        NetworkService.shared.genreRequest() { data, error in
+            if let error = error {
+                print("Error received requesting data: \(error.localizedDescription)")
+                completion(nil)
+            }
+            let decode = self.decodeJSON(type: GenreModel.self, from: data)
+            completion(decode)
+        }
+    }
+    
+    func fetchImage(completion: @escaping (ImageModel?) -> ()) {
+        NetworkService.shared.imageRequest() { data, error in
+            if let error = error {
+                print("Error received requesting data: \(error.localizedDescription)")
+                completion(nil)
+            }
+            let decode = self.decodeJSON(type: ImageModel.self, from: data)
             completion(decode)
         }
     }

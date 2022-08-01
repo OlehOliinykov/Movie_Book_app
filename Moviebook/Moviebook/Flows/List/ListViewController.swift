@@ -12,23 +12,22 @@ import SwiftUI
 
 class ListViewController: UIViewController {
     
+    var networkDataFetcher = NetworkDataFetcher()
     weak var passDelegate: passCellDelegate?
     var indexFavourite: Film?
     var films = [Film]()
-    let api = "f048e427d91bfded37eee1e7a69876fd"
-    
-    var networkDataFetcher = NetworkDataFetcher()
+    var configurationImage: ImageModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
-        setupCollectionViewUI()
+        requestFilm()
+        requestImage()
         setupDelegate()
         setupRecognizer()
-//        fetchFilm(api: api)
-        requestFilm()
-        navigationController?.navigationBar.prefersLargeTitles = true
+        setupCollectionViewUI()
         self.navigationItem.title = "🎬 Films"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = UIColor(red: 243/255, green: 224/255, blue: 236/255, alpha: 1)
     }
 
     lazy var listCollectionView: UICollectionView = { [weak self] in
@@ -62,31 +61,22 @@ class ListViewController: UIViewController {
     private func requestFilm() {
         networkDataFetcher.fetchFilm { [weak self] (requestResult) in
             guard let requestResult = requestResult else { return }
-
-            self?.films = requestResult.results
-            self?.listCollectionView.reloadData()
-            print(requestResult)
+            DispatchQueue.main.async {
+                self?.films = requestResult.results
+                self?.listCollectionView.reloadData()
+            }
         }
-        
     }
     
-//    private func fetchFilm(api: String) {
-//        let urlString = "https://api.themoviedb.org/3/trending/movie/week?api_key=\(api)"
-//
-//        NetworkDataFetch.shared.fetchFilm(urlString: urlString) { [weak self] filmModel, error in
-//            if error == nil {
-//                guard let filmModel = filmModel else { return }
-//                if filmModel.results != [] {
-//                    self?.films = filmModel.results
-//                    self?.listCollectionView.reloadData()
-//                } else {
-//                    print("Array is empty")
-//                }
-//            } else {
-//                print(error!.localizedDescription)
-//            }
-//        }
-//    }
+    private func requestImage() {
+        networkDataFetcher.fetchImage { [weak self] (requestResult) in
+            guard let requestResult = requestResult else { return }
+            DispatchQueue.main.async {
+                self?.configurationImage = requestResult
+                self?.listCollectionView.reloadData()
+            }
+        }
+    }
 }
 
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -97,7 +87,7 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemsCell", for: indexPath) as! ItemsCell
         let film = films[indexPath.item]
-        cell.setup(item: film)
+        cell.setup(item: film, configurationImage: configurationImage)
         cell.backgroundColor = UIColor(red: 234/255, green: 213/255, blue: 230/255, alpha: 1)
         cell.layer.cornerRadius = 16
         return cell
@@ -108,15 +98,18 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let navDetail = UINavigationController(rootViewController: detailScreen)
         let film = films[indexPath.item]
         detailScreen.film = film
-        detailScreen.title = "Detail"
+        navDetail.modalPresentationStyle = .pageSheet
+        if let sheet = navDetail.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+        }
         self.present(navDetail, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout
-        let space: CGFloat = (flowLayout?.minimumInteritemSpacing ?? 0.0) + (flowLayout?.sectionInset.left ?? 0.0) + (flowLayout?.sectionInset.right ?? 0.0)
-        let size: CGFloat = (collectionView.frame.size.width - space) / 2.0
-        return CGSize(width: size, height: size)
+        let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
+        let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
+        let size:CGFloat = (listCollectionView.frame.size.width - space) / 2.0
+        return CGSize(width: size, height: 314)
     }
 }
 
@@ -127,9 +120,12 @@ extension ListViewController: UIGestureRecognizerDelegate {
             passDelegate?.passCell(ItemsCell(), handleLongPressFor: indexFavourite)
         }
         let touchPoint = gestureRecognizer.location(in: listCollectionView)
-
         if let indexPath = listCollectionView.indexPathForItem(at: touchPoint) {
             indexFavourite = films[indexPath.item]
+            guard let indexFavourite = indexFavourite else { return }
+            let alert = UIAlertController(title: "Added", message: "Film \(indexFavourite.title ?? "") added to favourite", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

@@ -19,6 +19,8 @@ class ItemsCell: UICollectionViewCell {
         labelCell.font = UIFont.systemFont(ofSize: 17)
         labelCell.textAlignment = .center
         labelCell.numberOfLines = 1
+        labelCell.backgroundColor = UIColor(red: 104/255, green: 95/255, blue: 116/255, alpha: 0.05)
+        
         labelCell.translatesAutoresizingMaskIntoConstraints = false
         
         return labelCell
@@ -26,28 +28,28 @@ class ItemsCell: UICollectionViewCell {
     
     lazy var imageFilm: UIImageView = {
         let imageCell = UIImageView()
-        imageCell.layer.cornerRadius = 16
         imageCell.translatesAutoresizingMaskIntoConstraints = false
         
         return imageCell
     }()
-    
-    lazy var containerView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         
-        return view
-    }()
-    
-    func setup(item: Film) {
-        if let urlString = item.poster_path {
-            let url = "https://image.tmdb.org/t/p/w92/\(urlString)"
+    func setup(item: Film, configurationImage: ImageModel?) {
+        guard configurationImage != nil else { return }
+        if let urlString = item.poster_path,
+            let configuration = configurationImage?.images.secure_base_url,
+            let size = configurationImage?.images.poster_sizes[1] {
+            
+            let url = "\(configuration)\(size)\(urlString)"
             
             guard let downloadURL = URL(string: url) else { return }
             let resource = ImageResource(downloadURL: downloadURL)
             let placeholder = UIImage(named: "placeholderPhoto")
-            let processor = RoundCornerImageProcessor(cornerRadius: 16)
+            let processor = RoundCornerImageProcessor(cornerRadius: 8)
             
-            self.imageFilm.kf.setImage(with: resource, placeholder: placeholder, options: [.processor(processor)], progressBlock: { (receivedSize, totalSize) in
+            self.imageFilm.kf.setImage(with: resource,
+                                       placeholder: placeholder,
+                                       options: [.processor(processor)],
+                                       progressBlock: { (receivedSize, totalSize) in
                 let percentage = (Float(receivedSize) / Float(totalSize)) * 100.0
                 print("Downloading progress: \(percentage)%")
             }) { (result) in
@@ -87,23 +89,17 @@ class ItemsCell: UICollectionViewCell {
 
 extension ItemsCell {
     func setupUI() {
-        self.addSubview(self.containerView)
-        self.containerView.snp.makeConstraints { make in
-            make.top.left.right.bottom.equalToSuperview()
-        }
         
         self.addSubview(self.imageFilm)
         self.imageFilm.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
-            make.height.equalTo(100)
-            make.width.equalTo(100)
         }
         
         self.addSubview(self.filmName)
         self.filmName.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(20)
-            make.right.left.equalToSuperview().inset(12)
+            make.right.left.equalToSuperview().inset(32)
         }
     }
 }

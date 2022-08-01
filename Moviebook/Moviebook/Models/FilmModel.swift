@@ -16,4 +16,5 @@ struct Film: Decodable, Equatable {
     let poster_path: String?
     let release_date: String
     let overview: String
+    let id: Int
 }

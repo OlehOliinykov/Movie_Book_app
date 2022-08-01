@@ -12,6 +12,7 @@ import SnapKit
 class FavDetailViewController: UIViewController {
     
     var film: Film?
+    var genre: Genres?
     
     lazy var nameLabel: UILabel = {
         let nameFavFilm = UILabel()
@@ -33,7 +34,7 @@ class FavDetailViewController: UIViewController {
         let genreFavFilm = UILabel()
         genreFavFilm.text = "Name"
         genreFavFilm.font = UIFont.systemFont(ofSize: 17)
-        genreFavFilm.textAlignment = .left
+        genreFavFilm.textAlignment = .center
         genreFavFilm.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(genreFavFilm)
@@ -47,14 +48,16 @@ class FavDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Detail"
         setModel()
     }
     
     func setModel() {
         guard let film = film else { return }
-        
+        guard let genre = genre else { return }
+
         nameLabel.text = film.title
-        genreLabel.text = "Genre"
+        genreLabel.text = genre.name
     }
         
 }
